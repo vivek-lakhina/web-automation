@@ -1,0 +1,7 @@
+{
+  "flightBooking": {
+    "fromCity": "Delhi",
+    "toCity": "Mumbai",
+    "departureDate": "15 Jun 2025"
+  }
+}

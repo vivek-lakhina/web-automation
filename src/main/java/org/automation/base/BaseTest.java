@@ -1,16 +1,15 @@
 package org.automation.base;
 
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import org.automation.utils.DriverFactory;
 import org.automation.utils.LoggerUtil;
+import org.automation.utils.ReportUtils;
 import org.automation.utils.Utils;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 
 /**
  * Base class for all test classes, handling setup/teardown and Extent Reports.
@@ -19,27 +18,15 @@ import org.testng.annotations.BeforeSuite;
  */
 public class BaseTest {
     protected WebDriver driver;
-    protected static ExtentReports extent;
     protected ExtentTest test;
 
     /**
      * Initialize Extent Reports before the test suite.
      */
-    @BeforeSuite
-    public void setupReport() {
-        ExtentSparkReporter spark = new ExtentSparkReporter("target/ExtentReport.html");
-        extent = new ExtentReports();
-        extent.attachReporter(spark);
-        LoggerUtil.info("Extent Reports initialized");
-    }
-
-    /**
-     * Setup WebDriver before each test method.
-     */
     @BeforeMethod
     public void setup() {
         driver = DriverFactory.getDriver();
-        test = extent.createTest(getClass().getSimpleName());
+        test = ReportUtils.createTest(getClass().getSimpleName());
         LoggerUtil.info("Test setup completed for: " + getClass().getSimpleName());
     }
 
@@ -59,6 +46,13 @@ public class BaseTest {
             DriverFactory.quitDriver();
             LoggerUtil.info("Driver closed for test: " + getClass().getSimpleName());
         }
-        extent.flush();
+    }
+
+    /**
+     * Flush Extent Reports after the test suite.
+     */
+    @AfterSuite
+    public void tearDownReport() {
+        ReportUtils.flush();
     }
 }
