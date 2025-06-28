@@ -4,6 +4,8 @@
     <test name="RegressionTests">
         <classes>
             <class name="org.automation.tests.FlightBookingTest"/>
+            <class name="org.automation.tests.ParallelExecutionExample.Test1"/>
+            <class name="org.automation.tests.ParallelExecutionExample.Test2"/>
         </classes>
     </test>
 </suite>
